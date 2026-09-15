@@ -17,10 +17,11 @@ def test_scan_prints_system_information(monkeypatch, capsys, tmp_path: Path):
     identity = tmp_path / "id_ed25519"
     identity.touch()
     response = (
-        "infraaudit-debian13\0"
-        '"Debian GNU/Linux 13 (trixie)"\0'
-        "6.12.107+deb13-amd64\0"
-        "x86_64\0"
+        "infraaudit-debian13\x00"
+        '"Debian GNU/Linux 13 (trixie)"\x00'
+        "6.12.107+deb13-amd64\x00"
+        "x86_64\x00"
+        "123.5\x000.5\x000.25\x000.1\x004\x0016000\x001000\x0020000\x005000\x00"
     )
 
     monkeypatch.setattr(
@@ -45,6 +46,11 @@ def test_scan_prints_system_information(monkeypatch, capsys, tmp_path: Path):
     assert "Target: 192.168.122.141" in output
     assert "Hostname: infraaudit-debian13" in output
     assert "OS:       Debian GNU/Linux 13 (trixie)" in output
+    assert "Uptime:   123.50 seconds" in output
+    assert "Load:     0.50, 0.25, 0.10" in output
+    assert "CPUs:     4" in output
+    assert "Memory:   1000 / 16000 bytes" in output
+    assert "Root FS:  5000 / 20000 bytes" in output
 
 
 def test_scan_reports_missing_identity(capsys, tmp_path: Path):

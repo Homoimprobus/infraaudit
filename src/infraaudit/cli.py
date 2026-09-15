@@ -69,6 +69,22 @@ def _run_scan(args: argparse.Namespace) -> int:
     print(f"  OS:       {system_info.os_name}")
     print(f"  Kernel:   {system_info.kernel}")
     print(f"  Arch:     {system_info.architecture}")
+    print(f"  Uptime:   {system_info.uptime_seconds:.2f} seconds")
+    print(
+        "  Load:     "
+        f"{system_info.load_average_1:.2f}, "
+        f"{system_info.load_average_5:.2f}, "
+        f"{system_info.load_average_15:.2f}"
+    )
+    print(f"  CPUs:     {system_info.logical_cpus}")
+    print(
+        "  Memory:   "
+        f"{system_info.memory_used_bytes} / {system_info.memory_total_bytes} bytes"
+    )
+    print(
+        "  Root FS:  "
+        f"{system_info.root_used_bytes} / {system_info.root_total_bytes} bytes"
+    )
     return 0
 
 
